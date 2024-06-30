@@ -2,7 +2,7 @@
 #!/bin/bash
 
 ## Identify all installed proton versions including GE-Proton
-proton_versions=$(ls -d ~/.steam/root/compatibilitytools.d/* | grep -oP '(?<=compatibilitytools.d/).*')
+proton_versions=$(ls -d ~/.steam/steam/compatibilitytools.d/* | grep -oP '(?<=compatibilitytools.d/).*')
 wemod_dir=~/.local/share/wemod/bin/
 wemoddata_dir=~/.local/share/wemod/data
 wemod_path=~/.local/share/wemod/bin/WeMod.exe
@@ -168,7 +168,7 @@ fi
 ## Create a new configuration for the selected game in steamtinkerlaunch
 echo "Creating configuration for $game in steamtinkerlaunch"
 touch $stl_conf
-echo 'USEPROTON="$pv"' >> $stl_conf
+echo "USEPROTON="$pv"" >> $stl_conf
 echo 'USECUSTOMCMD="1"' >> $stl_conf
 echo "CUSTOMCMD="/home/$USER/.local/share/wemod/bin/WeMod.exe"" >> $stl_conf
 echo 'FORK_CUSTOMCMD="1"' >> $stl_conf
