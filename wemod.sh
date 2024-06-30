@@ -40,23 +40,24 @@ echo "This process may take a while"
 
 
 ## Check if folder exists at $protonpfx_path
-
+echo "Installing dotnet40 and dotnet48 to the prefix..."
 ## Check if dotnet40 and dotnet48 are installed in the prefix
-if [ -d "$protonpfx_path/drive_c/windows/Microsoft.NET/Framework/v4.0.30319" ]; then
-    echo "dotnet40 is installed in the proton prefix"
-else
-    echo "dotnet40 is not installed in the proton prefix"
-## Use winetricks to install dotnet40 and dotnet 48 to the proton prefix and use the proton version for the wine version
-WINEPREFIX="$protonpfx_path" winetricks -q dotnet40
-echo "Installing dotnet40 in the proton prefix..."
-fi
+#if [ -d "$protonpfx_path/drive_c/windows/Microsoft.NET/Framework/v4.0.30319" ]; then
+#    echo "Reinstalling dotnet40 even if"
+#
+#else
+#    echo "dotnet40 is not installed in the proton prefix"
+### Use winetricks to install dotnet40 and dotnet 48 to the proton prefix and use the proton version for the wine version
+WINEPREFIX="$protonpfx_path" winetricks -q dotnet40 dotnet48 >> ~/dotnet.log
+#echo "Installing dotnet40 in the proton prefix..."
+#fi
 ## Check if dotnet48 is installed in the prefix
-if [ -d "$protonpfx_path/drive_c/windows/Microsoft.NET/Framework/v4.8.04084" ]; then
-    echo "dotnet48 is installed in the proton prefix"
-else
-    echo "dotnet48 is not installed in the proton prefix"
-    WINEPREFIX="$protonpfx_path" winetricks -q dotnet48
-fi
+#if [ -d "$protonpfx_path/drive_c/windows/Microsoft.NET/Framework/v4.8.04084" ]; then
+#    echo "dotnet48 is installed in the proton prefix"
+#else
+#    echo "dotnet48 is not installed in the proton prefix"
+#    WINEPREFIX="$protonpfx_path" winetricks -q dotnet48
+#fi
 
 ## Install and setup WeMod in the future.. For now though just use the following path
 
@@ -67,6 +68,14 @@ else
     echo "WeMod user data does not exist at $wemoddata_dir"
     echo "Creating WeMod user data at $wemoddata_dir"
     mkdir -p $wemoddata_dir
+fi
+## If ~/tmpwemod does not exist create it
+if [ -d ~/tmp/wemod ]; then
+    echo "Temporary WeMod folder exists at ~/tmp/wemod"
+else
+    echo "Temporary WeMod folder does not exist at ~/tmp/wemod"
+    echo "Creating temporary WeMod folder at ~/tmp/wemod"
+    mkdir -p ~/tmp/wemod
 fi
 
 ## Fucntion to download WeMod installer
@@ -147,7 +156,7 @@ else
 fi
 
 ## Check if steamtinkerlaunch is installed
-if [ -x "$(command -v steamtinkerlaunch)" ]; then
+if [ -L "~/.config/steamtinkerlaunch" ]; then
     echo "steamtinkerlaunch is installed"
 else
     echo "steamtinkerlaunch is not installed"
